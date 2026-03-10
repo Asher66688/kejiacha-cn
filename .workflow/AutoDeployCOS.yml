@@ -1,0 +1,27 @@
+version: '1.0'
+name: auto-deploy-cos
+displayName: auto-deploy-cos
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+stages:
+  - name: stage-deploy-cos
+    displayName: 部署到腾讯云COS
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: 运行部署脚本
+        nodeVersion: 14.16.0
+        commands:
+          - npm config set registry https://registry.npmmirror.com
+          - npm install --no-save cos-nodejs-sdk-v5
+          - node scripts/deploy-cos.js
+        notify: []
+        strategy:
+          retry: '0'
