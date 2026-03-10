@@ -94,6 +94,7 @@ function uploadFile(cos, filePath) {
         Bucket: process.env.COS_BUCKET,
         Region: process.env.COS_REGION,
         Key: filePath,
+        ACL: "public-read",
         Body: fs.createReadStream(absPath),
         ContentType: getContentType(filePath),
         CacheControl: getCacheControl(filePath),
